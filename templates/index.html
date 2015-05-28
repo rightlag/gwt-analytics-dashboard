@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block title %}Sites{% endblock %}
+
+{% block body %}
+    <form role="form">
+        <div class="form-group">
+            <input class="form-control" type="text" data-ng-model="q" placeholder="Search sites&hellip;">
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-5">
+                    <select class="form-control" data-ng-model="url.category">
+                        <option value="">--category--</option>
+                        <option value="authPermissions">authPermissions</option>
+                        <option value="manyToOneRedirect">manyToOneRedirect</option>
+                        <option value="notFollowed">notFollowed</option>
+                        <option value="notFound">notFound</option>
+                        <option value="other">other</option>
+                        <option value="roboted">roboted</option>
+                        <option value="serverError">serverError</option>
+                        <option value="soft404">soft404</option>
+                    </select>
+                </div>
+                <div class="col-md-5">
+                    <select class="form-control" data-ng-model="url.platform">
+                        <option value="">--platform--</option>
+                        <option value="mobile">mobile</option>
+                        <option value="smartphoneOnly">smartphoneOnly</option>
+                        <option value="web">web</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary btn-block" data-ng-click="query()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div data-ng-show="error" class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        {{ error|angular }}
+    </div>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Site URL
+                    <a href="" data-ng-click="predicate = 'siteUrl'; reverse = !reverse">
+                        <span data-ng-class="reverse ? 'glyphicon glyphicon-chevron-up pull-right' : 'glyphicon glyphicon-chevron-down pull-right'" aria-hidden="true"></span>
+                    </a>
+                <th>
+                    Crawl Errors Counts
+                    <a href="" data-ng-click="predicate = 'urlCrawlErrorsCounts'; reverse = !reverse">
+                        <span data-ng-class="reverse ? 'glyphicon glyphicon-chevron-up pull-right' : 'glyphicon glyphicon-chevron-down pull-right'" aria-hidden="true"></span>
+                    </a>
+                </th>
+                <th>URL Crawl Errors</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-ng-repeat="site in filtered = (sites|filter:q|orderBy:predicate:reverse)">
+                <td><a href="{{ site.siteUrl|angular }}" target="_blank">{{ site.siteUrl|angular }}</a></td>
+                <td>{{ site.urlCrawlErrorsCounts|angular }}</td>
+                <td><a href="#" data-ng-click="open($event, site)">View Crawl Errors</a></td>
+            </tr>
+            <tr data-ng-if="!sites">
+                <td colspan="3">No sites to display</td>
+            </tr>
+            <tr data-ng-if="filtered.length == 0">
+                <td colspan="3">No sites to display</td>
+            </tr>
+        </tbody>
+    </table>
+    <script type="text/ng-template" id="errors.html">
+        <div class="modal-header">
+            <h3 class="modal-title">{{ title|angular }}</h3>
+        </div>
+        <div class="modal-body">
+            <form role="form">
+                <div class="form-group">
+                    <input class="form-control" type="text" data-ng-model="q" placeholder="Search errors&hellip;">
+                </div>
+            </form>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>First Detected</th>
+                            <th>Last Crawled</th>
+                            <th>Page URL</th>
+                            <th>Response Code</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="error in filtered = (errors|filter:q)">
+                            <td>{{ error.first_detected|angular }}</td>
+                            <td>{{ error.last_crawled|angular }}</td>
+                            <td>{{ error.pageUrl|angular }}</td>
+                            <td>{{ error.responseCode|angular }}</td>
+                        </tr>
+                        <tr data-ng-if="!errors">
+                            <td colspan="4">No errors to display</td>
+                        </tr>
+                        <tr data-ng-if="filtered.length == 0">
+                            <td colspan="4">No errors to display</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+{% endblock %}
