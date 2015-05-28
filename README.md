@@ -24,28 +24,11 @@ To successfully run the application, you must first configure the `app.py` modul
 
 The following variables must be modified:
 
-<table>
-    <thead>
-        <tr>
-            <th>Key</th>
-            <th>Value</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>CLIENT_ID</td>
-            <td>Google Client ID</td>
-        </tr>
-        <tr>
-            <td>CLIENT_SECRET</td>
-            <td>Google Client Secret</td>
-        </tr>
-        <tr>
-            <td>REDIRECT_URI</td>
-            <td>Google Client Redirect URI</td>
-        </tr>
-    </tbody>
-</table>
+| Key           | Value                |
+|---------------|----------------------|
+| CLIENT_ID     | Google Client ID     |
+| CLIENT_SECRET | Google Client Secret |
+| REDIRECT_URI  | Google Redirect URI  |
 
 These credentials can be obtained from the [Google Developers Console](https://console.developers.google.com)
 
