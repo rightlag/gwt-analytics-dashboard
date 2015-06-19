@@ -1,6 +1,6 @@
 # gwt-analytics-dashboard
 
-This repository contains the `0.0.0` release of the gwt-analytics-dashboard.
+This repository contains the `0.0.1` release of the gwt-analytics-dashboard.
 
 # Purpose
 The purpose of this application is to report all crawl related errors in a simple and easy to use interface.
@@ -20,7 +20,7 @@ Once you have your virtual environment installed and configured, you can complet
     $ bower install
 
 # Configuration
-To successfully run the application, you must first configure the `app.py` module.
+To successfully run the application, you must first create a `~/.gwt` configuration file.
 
 The following variables must be modified:
 
@@ -29,6 +29,14 @@ The following variables must be modified:
 | CLIENT_ID     | Google Client ID     |
 | CLIENT_SECRET | Google Client Secret |
 | REDIRECT_URI  | Google Redirect URI  |
+
+Use the following format:
+
+    {
+        "CLIENT_ID": "<GOOGLE_CLIENT_ID>",
+        "CLIENT_SECRET": "<GOOGLE_CLIENT_SECRET>",
+        "REDIRECT_URI": "<GOOGLE_REDIRECT_URI>"
+    }
 
 These credentials can be obtained from the [Google Developers Console](https://console.developers.google.com)
 

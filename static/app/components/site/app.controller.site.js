@@ -1,6 +1,7 @@
 'use strict';
 
-angular.module('gwt.site', ['gwt', 'ngResource', 'ui.bootstrap'])
+angular.module('gwt.site',
+               ['gwt', 'ngResource', 'ui.bootstrap', 'highcharts-ng'])
 .factory('Site', ['$resource', 'API_HOST', function ($resource, API_HOST) {
     return $resource(
         API_HOST + '/sites',
@@ -13,7 +14,53 @@ angular.module('gwt.site', ['gwt', 'ngResource', 'ui.bootstrap'])
     $scope.predicate = '-urlCrawlErrorsCounts';
     var sites = Site.query(
         function (value, responseHeaders) {
+            var crawlErrors = [];
+            var siteUrls = [];
+            for (var i = 0; i < value.sites.length; i++) {
+                crawlErrors.push(value.sites[i].urlCrawlErrorsCounts);
+                siteUrls.push(value.sites[i].siteUrl);
+            }
+            $scope.loaded = true;
             $scope.sites = value.sites;
+            $scope.chartConfig = {
+                options: {
+                    chart: {
+                        type: 'column',
+                        style: {
+                            fontFamily: 'Open Sans, sans-serif'
+                        }
+                    },
+                    tooltip: {
+                        style: {
+                            fontWeight: 'bold'
+                        }
+                    }
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0,
+                    }
+                },
+                series: [{
+                    name: 'crawl errors counts',
+                    data: crawlErrors
+                }],
+                title: {
+                    text: 'gwt'
+                },
+                xAxis: {
+                    allowDecimals: false,
+                    tickInterval: 1,
+                    title: {
+                        text: 'sites'
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'crawl errors counts'
+                    }
+                }
+            };
         },
         function (httpResponse) {
             if (httpResponse.status === 400) {
@@ -41,7 +88,7 @@ angular.module('gwt.site', ['gwt', 'ngResource', 'ui.bootstrap'])
         var query = new Site($scope.url);
         query.$save(
             function (value, responseHeaders) {
-                console.log(value);
+                $scope.sites = value.sites;
             },
             function (httpResponse) {
                 $scope.error = httpResponse.data.message;

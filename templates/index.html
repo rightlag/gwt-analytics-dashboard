@@ -3,19 +3,19 @@
 {% block title %}Sites{% endblock %}
 
 {% block body %}
+    <highchart id="chart-sites" config="chartConfig" data-ng-if="loaded && sites.length > 0"></highchart>
     <form role="form">
         <div class="form-group">
-            <input class="form-control" type="text" data-ng-model="q" placeholder="Search sites&hellip;">
+            <input class="form-control" type="text" data-ng-model="q" placeholder="Search sites&hellip;" autofocus>
         </div>
         <div class="form-group">
             <div class="row">
                 <div class="col-md-5">
                     <select class="form-control" data-ng-model="url.category">
-                        <option value="">--category--</option>
                         <option value="authPermissions">authPermissions</option>
                         <option value="manyToOneRedirect">manyToOneRedirect</option>
                         <option value="notFollowed">notFollowed</option>
-                        <option value="notFound">notFound</option>
+                        <option value="notFound" selected>notFound</option>
                         <option value="other">other</option>
                         <option value="roboted">roboted</option>
                         <option value="serverError">serverError</option>
@@ -24,10 +24,9 @@
                 </div>
                 <div class="col-md-5">
                     <select class="form-control" data-ng-model="url.platform">
-                        <option value="">--platform--</option>
                         <option value="mobile">mobile</option>
                         <option value="smartphoneOnly">smartphoneOnly</option>
-                        <option value="web">web</option>
+                        <option value="web" selected>web</option>
                     </select>
                 </div>
                 <div class="col-md-2">
@@ -40,6 +39,11 @@
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         {{ error|angular }}
     </div>
+    <p data-ng-if="loaded && filtered.length > 0">
+        Showing <strong>{{ (filtered.length)|angular }}</strong>
+        <span data-ng-if="filtered.length > 1"> sites</span>
+        <span data-ng-if="filtered.length == 1"> site</span>
+    </p>
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -63,14 +67,19 @@
                 <td>{{ site.urlCrawlErrorsCounts|angular }}</td>
                 <td><a href="#" data-ng-click="open($event, site)">View Crawl Errors</a></td>
             </tr>
-            <tr data-ng-if="!sites">
-                <td colspan="3">No sites to display</td>
+            <tr data-ng-if="!loaded">
+                <td colspan="3">Loading sites&hellip;</td>
             </tr>
             <tr data-ng-if="filtered.length == 0">
                 <td colspan="3">No sites to display</td>
             </tr>
         </tbody>
     </table>
+    <p data-ng-if="loaded && filtered.length > 0">
+        Showing <strong>{{ (filtered.length)|angular }}</strong>
+        <span data-ng-if="filtered.length > 1"> sites</span>
+        <span data-ng-if="filtered.length == 1"> site</span>
+    </p>
     <script type="text/ng-template" id="errors.html">
         <div class="modal-header">
             <h3 class="modal-title">{{ title|angular }}</h3>
@@ -78,7 +87,7 @@
         <div class="modal-body">
             <form role="form">
                 <div class="form-group">
-                    <input class="form-control" type="text" data-ng-model="q" placeholder="Search errors&hellip;">
+                    <input class="form-control" type="text" data-ng-model="q" placeholder="Search errors&hellip;" autofocus>
                 </div>
             </form>
             <div class="table-responsive">

@@ -9,8 +9,8 @@
         {% endblock %}
     </head>
     <body data-ng-controller="SiteCtrl">
-        <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="container">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                         <span class="sr-only">Toggle navigation</span>
@@ -20,15 +20,16 @@
                     </button>
                     <a class="navbar-brand" href="#">gwt</a>
                 </div>
-                <div id="navbar" class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                    </ul>
-                </div>
             </div>
         </nav>
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-sm-3 col-md-2 sidebar">
+                    <ul class="nav nav-sidebar">
+                        <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                     {% block body %}{% endblock %}
                 </div>
             </div>
@@ -40,6 +41,8 @@
             <script src="/static/bower_components/angular-resource/angular-resource.min.js"></script>
             <script src="/static/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
             <script src="/static/bower_components/angular-loading-bar/src/loading-bar.js"></script>
+            <script src="http://code.highcharts.com/highcharts.src.js"></script>
+            <script src="/static/bower_components/highcharts-ng/dist/highcharts-ng.min.js"></script>
             <script src="/static/app/app.module.js"></script>
             <script src="/static/app/components/site/app.controller.site.js"></script>
         {% endblock %}
